@@ -1,0 +1,126 @@
+
+/* =====================================
+   FINORA GLOBAL STYLES
+===================================== */
+
+:root {
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+
+    /* Finora Brand Colors */
+    --brand-dark: #063B43;
+    --brand-green: #20B66A;
+    --brand-gold: #F5B52E;
+
+    /* Application Colors */
+    --primary: #20B66A;
+    --primary-light: #e8f8ef;
+
+    --bg: #f7f8fc;
+    --card: #ffffff;
+    --sidebar: #063B43;
+
+    --text: #20243a;
+    --muted: #8a91a5;
+    --border: #eceef4;
+
+    --success: #19a974;
+    --danger: #e65d6b;
+
+    --shadow: 0 4px 20px rgba(35, 42, 75, 0.045);
+}
+
+/* =====================================
+   DARK THEME
+===================================== */
+
+[data-theme="dark"] {
+    --primary: #42c994;
+    --primary-light: #263e38;
+
+    --bg: #151725;
+    --card: #202337;
+    --sidebar: #1c1f31;
+
+    --text: #f1f2fa;
+    --muted: #a0a5bb;
+    --border: #34374b;
+
+    --success: #42c994;
+    --danger: #ff7580;
+
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* =====================================
+   RESET
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img,
+svg {
+    max-width: 100%;
+}
+
+/* =====================================
+   APPLICATION LAYOUT
+===================================== */
+
+.app-layout {
+    min-height: 100vh;
+    background: var(--bg);
+}
+
+.main-content {
+    min-height: 100vh;
+    margin-left: 260px;
+    background: var(--bg);
+
+    transition: background 0.25s ease;
+}
+
+/* =====================================
+   RESPONSIVE LAYOUT
+===================================== */
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+    }
+}

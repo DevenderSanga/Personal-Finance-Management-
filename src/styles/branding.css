@@ -1,0 +1,147 @@
+
+/* =====================================
+   FINORA BRANDING
+===================================== */
+
+.finora-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+
+    width: auto;
+    min-width: 0;
+
+    text-decoration: none;
+}
+
+.finora-logo-icon {
+    display: block;
+
+    width: 45px;
+    height: 45px;
+
+    flex-shrink: 0;
+}
+
+.finora-logo-copy {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    min-width: max-content;
+
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.finora-logo-name {
+    display: block !important;
+
+    color: #063B43;
+
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.1;
+
+    white-space: nowrap;
+}
+
+.finora-logo-tagline {
+    display: block !important;
+
+    color: #84939A;
+
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+
+    white-space: nowrap;
+}
+
+/* =====================================
+   SIDEBAR LOGO
+===================================== */
+
+.finora-logo-sidebar {
+    display: inline-flex !important;
+    align-items: center;
+
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+.finora-logo-sidebar .finora-logo-icon {
+    width: 43px;
+    height: 43px;
+}
+
+.finora-logo-sidebar .finora-logo-copy {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.finora-logo-sidebar .finora-logo-name {
+    display: block !important;
+
+    color: #ffffff !important;
+
+    font-size: 23px;
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+/* =====================================
+   LOGIN LOGO
+===================================== */
+
+.finora-logo-login {
+    margin-bottom: 35px;
+}
+
+.finora-logo-login .finora-logo-icon {
+    width: 52px;
+    height: 52px;
+}
+
+.finora-logo-login .finora-logo-name {
+    font-size: 29px;
+}
+
+/* =====================================
+   PROFILE AND HEADER
+===================================== */
+
+.sidebar-profile-link {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-user-avatar {
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.header-user-avatar:hover {
+    transform: translateY(-1px);
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 480px) {
+    .finora-logo-sidebar .finora-logo-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .finora-logo-sidebar .finora-logo-name {
+        font-size: 21px;
+    }
+}
