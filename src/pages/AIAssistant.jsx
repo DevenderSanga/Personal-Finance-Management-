@@ -1,5 +1,5 @@
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import {
     FiSend,
     FiMessageCircle,
@@ -15,6 +15,7 @@ import {
 } from "react-icons/fi";
 
 import { useFinance } from "../context/FinanceContext";
+import "../styles/ai-assistant.css";
 
 const currency = (amount) =>
     new Intl.NumberFormat("en-IN", {
@@ -41,15 +42,22 @@ function AIAssistant() {
 
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const messagesEndRef = useRef(null);
 
     const [messages, setMessages] = useState([
         {
             id: 1,
             sender: "assistant",
-            text: "Hello! I'm your FinWise Financial Assistant. I can help you understand your spending, review your budgets, and find ways to save money. What would you like to know?",
+            text: "Hello! I'm your Finora Financial Assistant. I can help you understand your spending, review your budgets, and find ways to save money. What would you like to know?",
             time: new Date(),
         },
     ]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+        });
+    }, [messages, loading]);
 
     const currentMonth = getMonth();
 
@@ -134,7 +142,7 @@ function AIAssistant() {
     }, [expenses, currentMonth]);
 
     const topCategory = categorySpending[0];
-    
+
     const budgetInsights = budgets
         .filter((item) => item.month === currentMonth)
         .map((budget) => {
@@ -160,12 +168,11 @@ function AIAssistant() {
             };
         });
 
-    // Generate insights using existing financial data.
-    // This is a local rule-based assistant, not a live AI API.
+    // Local rule-based assistant using your existing financial data.
+    // This is a demo assistant, not a live AI API.
+
     const generateResponse = (question) => {
         const q = question.toLowerCase();
-
-        const topCategory = categorySpending[0];
 
         if (
             q.includes("help") ||
@@ -332,7 +339,6 @@ function AIAssistant() {
         setMessage("");
         setLoading(true);
 
-        // Simulated assistant response using local financial data.
         setTimeout(() => {
             const answer = generateResponse(question);
 
@@ -362,7 +368,7 @@ function AIAssistant() {
             {
                 id: Date.now(),
                 sender: "assistant",
-                text: "Hello! I'm your FinWise Financial Assistant. What would you like to know about your finances?",
+                text: "Hello! I'm your Finora Financial Assistant. What would you like to know about your finances?",
                 time: new Date(),
             },
         ]);
@@ -410,10 +416,9 @@ function AIAssistant() {
     return (
         <div className="ai-page">
 
-            {/* Heading */}
             <div className="ai-page-heading">
                 <div>
-                    <h1>AI Financial Assistant</h1>
+                    <h1>Finora AI Financial Assistant</h1>
                     <p>
                         Your personal companion for smarter financial decisions.
                     </p>
@@ -425,7 +430,6 @@ function AIAssistant() {
                 </div>
             </div>
 
-            {/* Insights */}
             <div className="ai-insights-grid">
                 {insights.map((item) => (
                     <div className="ai-insight-card" key={item.title}>
@@ -442,7 +446,6 @@ function AIAssistant() {
                 ))}
             </div>
 
-            {/* Chat and Side Panel */}
             <div className="ai-main-grid">
 
                 <section className="ai-chat-card">
@@ -454,7 +457,7 @@ function AIAssistant() {
                             </div>
 
                             <div>
-                                <h3>FinWise Assistant</h3>
+                                <h3>Finora Assistant</h3>
                                 <span>
                                     <i /> Ready to help
                                 </span>
@@ -493,7 +496,7 @@ function AIAssistant() {
                                     <div className="ai-message-name">
                                         {item.sender === "user"
                                             ? "You"
-                                            : "FinWise Assistant"}
+                                            : "Finora Assistant"}
                                     </div>
 
                                     <div className="ai-message-bubble">
@@ -508,16 +511,20 @@ function AIAssistant() {
                                 <div className="ai-message-avatar">
                                     <FiCpu />
                                 </div>
+
                                 <div className="ai-message-content">
                                     <div className="ai-message-name">
-                                        FinWise Assistant
+                                        Finora Assistant
                                     </div>
+
                                     <div className="ai-typing">
                                         Analyzing your financial data...
                                     </div>
                                 </div>
                             </div>
                         )}
+
+                        <div ref={messagesEndRef} />
                     </div>
 
                     <div className="ai-chat-input-area">
@@ -546,13 +553,12 @@ function AIAssistant() {
                         </form>
 
                         <p>
-                            Demo assistant uses your saved FinWise data.
-                            It does not connect to a live AI service.
+                            Finora demo assistant uses your saved financial
+                            data. It does not connect to a live AI service.
                         </p>
                     </div>
                 </section>
 
-                {/* Suggestions */}
                 <aside className="ai-side-panel">
 
                     <div className="ai-side-card">

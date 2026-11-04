@@ -58,12 +58,10 @@ function Settings() {
         investments = [],
     } = useFinance();
 
-    // Profile settings
     const [profile, setProfile] = useState(() =>
         readSettings("finwise_profile", DEFAULT_PROFILE)
     );
 
-    // Notification settings
     const [notifications, setNotifications] = useState(() =>
         readSettings(
             "finwise_notifications",
@@ -71,21 +69,19 @@ function Settings() {
         )
     );
 
-    // Layout direction settings
-    const [direction, setDirection] = useState(() => {
-        return localStorage.getItem("finwise-direction") || "ltr";
-    });
+    const [direction, setDirection] = useState(() =>
+        localStorage.getItem("finwise-direction") || "ltr"
+    );
 
     const [savedMessage, setSavedMessage] = useState("");
 
     // Apply and save layout direction
     useEffect(() => {
         document.documentElement.setAttribute("dir", direction);
-
         localStorage.setItem("finwise-direction", direction);
     }, [direction]);
 
-    // Save profile
+    // Save profile and update Header / Sidebar
     useEffect(() => {
         localStorage.setItem(
             "finwise_profile",
@@ -94,7 +90,7 @@ function Settings() {
 
         window.dispatchEvent(
             new CustomEvent("finwise-profile-updated", {
-                detail: profile
+                detail: profile,
             })
         );
     }, [profile]);
@@ -107,7 +103,6 @@ function Settings() {
         );
     }, [notifications]);
 
-    // Update profile fields
     const updateProfile = (field, value) => {
         setProfile((current) => ({
             ...current,
@@ -115,7 +110,6 @@ function Settings() {
         }));
     };
 
-    // Update notification preferences
     const updateNotification = (field) => {
         setNotifications((current) => ({
             ...current,
@@ -123,7 +117,6 @@ function Settings() {
         }));
     };
 
-    // Save profile
     const handleSaveProfile = (event) => {
         event.preventDefault();
 
@@ -132,7 +125,13 @@ function Settings() {
             JSON.stringify(profile)
         );
 
-        setSavedMessage("Profile settings saved successfully.");
+        window.dispatchEvent(
+            new CustomEvent("finwise-profile-updated", {
+                detail: profile,
+            })
+        );
+
+        setSavedMessage("Your Finora profile settings have been saved.");
 
         setTimeout(() => {
             setSavedMessage("");
@@ -142,6 +141,7 @@ function Settings() {
     // Export finance data
     const handleExport = () => {
         const exportData = {
+            application: "Finora",
             exportedAt: new Date().toISOString(),
             profile,
             notifications,
@@ -159,11 +159,10 @@ function Settings() {
         );
 
         const url = URL.createObjectURL(blob);
-
         const link = document.createElement("a");
 
         link.href = url;
-        link.download = "finwise-financial-data.json";
+        link.download = "finora-financial-data.json";
 
         document.body.appendChild(link);
         link.click();
@@ -175,7 +174,7 @@ function Settings() {
     // Reset application
     const handleReset = () => {
         const confirmed = window.confirm(
-            "Are you sure you want to reset FinWise? Your added records and settings will be removed and the original demo data will be restored."
+            "Are you sure you want to reset Finora? Your added records and settings will be removed and the original demo data will be restored."
         );
 
         if (!confirmed) return;
@@ -196,7 +195,7 @@ function Settings() {
         window.location.reload();
     };
 
-    // FinWise feature updates
+    // Finora feature updates
     const updates = [
         {
             id: 1,
@@ -249,8 +248,7 @@ function Settings() {
                     <h1>Settings</h1>
 
                     <p>
-                        Manage your profile and customize your
-                        FinWise experience.
+                        Manage your profile and customize your Finora experience.
                     </p>
                 </div>
             </div>
@@ -297,10 +295,7 @@ function Settings() {
                                         id="profile-name"
                                         value={profile.name}
                                         onChange={(e) =>
-                                            updateProfile(
-                                                "name",
-                                                e.target.value
-                                            )
+                                            updateProfile("name", e.target.value)
                                         }
                                         placeholder="Enter your name"
                                         required
@@ -317,10 +312,7 @@ function Settings() {
                                         type="email"
                                         value={profile.email}
                                         onChange={(e) =>
-                                            updateProfile(
-                                                "email",
-                                                e.target.value
-                                            )
+                                            updateProfile("email", e.target.value)
                                         }
                                         placeholder="Enter your email"
                                         required
@@ -337,10 +329,7 @@ function Settings() {
                                         type="tel"
                                         value={profile.phone}
                                         onChange={(e) =>
-                                            updateProfile(
-                                                "phone",
-                                                e.target.value
-                                            )
+                                            updateProfile("phone", e.target.value)
                                         }
                                         placeholder="Enter phone number"
                                     />
@@ -366,17 +355,13 @@ function Settings() {
 
                         <div className="settings-card-heading">
                             <div className="settings-icon">
-                                {theme === "dark" ? (
-                                    <FiMoon />
-                                ) : (
-                                    <FiSun />
-                                )}
+                                {theme === "dark" ? <FiMoon /> : <FiSun />}
                             </div>
 
                             <div>
                                 <h2>Appearance</h2>
                                 <p>
-                                    Choose how FinWise looks on your device.
+                                    Choose how Finora looks on your device.
                                 </p>
                             </div>
                         </div>
@@ -385,12 +370,9 @@ function Settings() {
 
                             <button
                                 type="button"
-                                className={`settings-theme-option ${theme === "light" ? "active" : ""
-                                    }`}
+                                className={`settings-theme-option ${theme === "light" ? "active" : ""}`}
                                 onClick={() => {
-                                    if (theme !== "light") {
-                                        toggleTheme();
-                                    }
+                                    if (theme !== "light") toggleTheme();
                                 }}
                             >
                                 <FiSun />
@@ -402,19 +384,14 @@ function Settings() {
                                     </small>
                                 </span>
 
-                                {theme === "light" && (
-                                    <FiCheckCircle />
-                                )}
+                                {theme === "light" && <FiCheckCircle />}
                             </button>
 
                             <button
                                 type="button"
-                                className={`settings-theme-option ${theme === "dark" ? "active" : ""
-                                    }`}
+                                className={`settings-theme-option ${theme === "dark" ? "active" : ""}`}
                                 onClick={() => {
-                                    if (theme !== "dark") {
-                                        toggleTheme();
-                                    }
+                                    if (theme !== "dark") toggleTheme();
                                 }}
                             >
                                 <FiMoon />
@@ -426,9 +403,7 @@ function Settings() {
                                     </small>
                                 </span>
 
-                                {theme === "dark" && (
-                                    <FiCheckCircle />
-                                )}
+                                {theme === "dark" && <FiCheckCircle />}
                             </button>
 
                         </div>
@@ -454,40 +429,28 @@ function Settings() {
 
                             <button
                                 type="button"
-                                className={`settings-direction-option ${direction === "ltr" ? "active" : ""
-                                    }`}
+                                className={`settings-direction-option ${direction === "ltr" ? "active" : ""}`}
                                 onClick={() => setDirection("ltr")}
                             >
                                 <strong>LTR</strong>
-
                                 <span>Left to Right</span>
-
                                 <small>
                                     English and other left-to-right languages
                                 </small>
-
-                                {direction === "ltr" && (
-                                    <FiCheckCircle />
-                                )}
+                                {direction === "ltr" && <FiCheckCircle />}
                             </button>
 
                             <button
                                 type="button"
-                                className={`settings-direction-option ${direction === "rtl" ? "active" : ""
-                                    }`}
+                                className={`settings-direction-option ${direction === "rtl" ? "active" : ""}`}
                                 onClick={() => setDirection("rtl")}
                             >
                                 <strong>RTL</strong>
-
                                 <span>Right to Left</span>
-
                                 <small>
                                     Arabic, Hebrew and other right-to-left languages
                                 </small>
-
-                                {direction === "rtl" && (
-                                    <FiCheckCircle />
-                                )}
+                                {direction === "rtl" && <FiCheckCircle />}
                             </button>
 
                         </div>
@@ -532,7 +495,7 @@ function Settings() {
                                 },
                                 {
                                     key: "productUpdates",
-                                    title: "New FinWise Feature Updates",
+                                    title: "New Finora Feature Updates",
                                     description:
                                         "Get notified when new features and improvements are released.",
                                 },
@@ -549,14 +512,9 @@ function Settings() {
                                     <button
                                         type="button"
                                         role="switch"
-                                        aria-checked={
-                                            notifications[item.key]
-                                        }
+                                        aria-checked={notifications[item.key]}
                                         aria-label={item.title}
-                                        className={`settings-switch ${notifications[item.key]
-                                                ? "enabled"
-                                                : ""
-                                            }`}
+                                        className={`settings-switch ${notifications[item.key] ? "enabled" : ""}`}
                                         onClick={() =>
                                             updateNotification(item.key)
                                         }
@@ -569,7 +527,7 @@ function Settings() {
                         </div>
                     </section>
 
-                    {/* WHAT'S NEW IN FINWISE */}
+                    {/* WHAT'S NEW */}
                     <section className="settings-card">
 
                         <div className="settings-card-heading">
@@ -578,7 +536,7 @@ function Settings() {
                             </div>
 
                             <div>
-                                <h2>What's New in FinWise</h2>
+                                <h2>What's New in Finora</h2>
                                 <p>
                                     Discover the latest features and improvements.
                                 </p>
@@ -616,7 +574,7 @@ function Settings() {
                             <FiBell />
 
                             <span>
-                                Enable New FinWise Feature Updates above
+                                Enable New Finora Feature Updates above
                                 to save your notification preference.
                             </span>
                         </div>
@@ -683,7 +641,7 @@ function Settings() {
                         </button>
 
                         <small className="settings-helper-text">
-                            Downloads your FinWise records as a JSON backup file.
+                            Downloads your Finora records as a JSON backup file.
                         </small>
 
                     </section>
@@ -705,7 +663,7 @@ function Settings() {
                         </div>
 
                         <p className="settings-security-note">
-                            FinWise currently stores your profile, preferences,
+                            Finora currently stores your profile, preferences,
                             and finance records in this browser using localStorage.
                             This frontend demo does not use a server or real
                             account authentication.
@@ -731,7 +689,7 @@ function Settings() {
 
                         <p className="settings-danger-description">
                             This removes records and preferences you added
-                            and restores the original FinWise demo data.
+                            and restores the original Finora demo data.
                         </p>
 
                         <button

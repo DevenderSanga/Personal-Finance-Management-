@@ -439,11 +439,10 @@ function Reports() {
         const link = document.createElement("a");
 
         link.href = url;
-        link.download = `FinWise-Report-${
-            reportType === "monthly"
+        link.download = `FinWise-Report-${reportType === "monthly"
                 ? selectedMonth
                 : selectedYear
-        }.csv`;
+            }.csv`;
 
         link.click();
         URL.revokeObjectURL(url);
@@ -630,103 +629,67 @@ function Reports() {
             </div>
 
             {/* Investment allocation and activity */}
-            <div className="reports-charts-grid">
-
-                <div className="reports-panel">
-                    <div className="reports-panel-heading">
-                        <div>
-                            <h3>Investment Allocation</h3>
-                            <p>Current portfolio value by investment type</p>
-                        </div>
+            <div className="reports-panel reports-allocation-panel">
+                <div className="reports-panel-heading">
+                    <div>
+                        <h3>Investment Allocation</h3>
+                        <p>Current portfolio value by investment type</p>
                     </div>
+                </div>
 
-                    {investmentAllocation.length > 0 ? (
-                        <>
-                            <div className="reports-pie-chart">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <PieChart>
-                                        <Pie
-                                            data={investmentAllocation}
-                                            dataKey="value"
-                                            nameKey="name"
-                                            innerRadius={55}
-                                            outerRadius={90}
-                                            paddingAngle={3}
-                                        >
-                                            {investmentAllocation.map((item, index) => (
-                                                <Cell
-                                                    key={item.name}
-                                                    fill={COLORS[index % COLORS.length]}
-                                                />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip
-                                            formatter={(value) => currency(value)}
-                                        />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                            </div>
-
-                            <div className="reports-category-list">
-                                {investmentAllocation.map((item, index) => (
-                                    <div
-                                        className="reports-category-row"
-                                        key={item.name}
+                {investmentAllocation.length > 0 ? (
+                    <div className="reports-allocation-content">
+                        <div className="reports-pie-chart">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie
+                                        data={investmentAllocation}
+                                        dataKey="value"
+                                        nameKey="name"
+                                        innerRadius={55}
+                                        outerRadius={90}
+                                        paddingAngle={3}
                                     >
-                                        <span>
-                                            <i
-                                                style={{
-                                                    background:
-                                                        COLORS[index % COLORS.length],
-                                                }}
+                                        {investmentAllocation.map((item, index) => (
+                                            <Cell
+                                                key={item.name}
+                                                fill={COLORS[index % COLORS.length]}
                                             />
-                                            {item.name}
-                                        </span>
-                                        <strong>{currency(item.value)}</strong>
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    ) : (
-                        <div className="reports-empty">
-                            No investment allocation available.
-                        </div>
-                    )}
-                </div>
+                                        ))}
+                                    </Pie>
 
-                <div className="reports-panel">
-                    <div className="reports-panel-heading">
-                        <div>
-                            <h3>Investment Activity</h3>
-                            <p>Transactions during {reportLabel}</p>
-                        </div>
-                    </div>
-
-                    <div className="reports-investment-activity">
-                        <div>
-                            <span>Investment Purchases</span>
-                            <strong className="investment-negative">
-                                {currency(investmentActivityTotals.purchases)}
-                            </strong>
+                                    <Tooltip
+                                        formatter={(value) => currency(value)}
+                                    />
+                                </PieChart>
+                            </ResponsiveContainer>
                         </div>
 
-                        <div>
-                            <span>Sales, Dividends & Interest</span>
-                            <strong className="investment-positive">
-                                {currency(investmentActivityTotals.receipts)}
-                            </strong>
-                        </div>
+                        <div className="reports-category-list">
+                            {investmentAllocation.map((item, index) => (
+                                <div
+                                    className="reports-category-row"
+                                    key={item.name}
+                                >
+                                    <span>
+                                        <i
+                                            style={{
+                                                background: COLORS[index % COLORS.length],
+                                            }}
+                                        />
+                                        {item.name}
+                                    </span>
 
-                        <div>
-                            <span>Investment Activities</span>
-                            <strong>
-                                {filteredInvestmentTransactions.length}
-                            </strong>
+                                    <strong>{currency(item.value)}</strong>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
-
+                ) : (
+                    <div className="reports-empty">
+                        No investment allocation available.
+                    </div>
+                )}
             </div>
 
             {/* Holdings table */}
@@ -934,11 +897,10 @@ function Reports() {
 
                                 <div className="reports-budget-track">
                                     <div
-                                        className={`reports-budget-fill ${
-                                            budget.percentage > 100
+                                        className={`reports-budget-fill ${budget.percentage > 100
                                                 ? "over"
                                                 : ""
-                                        }`}
+                                            }`}
                                         style={{
                                             width: `${Math.min(
                                                 budget.percentage,
@@ -1073,13 +1035,12 @@ function Reports() {
 
                                             <td>
                                                 <span
-                                                    className={`reports-type ${
-                                                        isInvestment
+                                                    className={`reports-type ${isInvestment
                                                             ? "investment"
                                                             : isIncome
                                                                 ? "income"
                                                                 : "expense"
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {isInvestment
                                                         ? `Investment - ${item.activityType || "Activity"}`

@@ -28,7 +28,7 @@
     align-items: center;
     gap: 9px;
     padding: 11px 17px;
-    background: #4f46e5;
+    background: #20b66a;
     border: none;
     color: white;
     border-radius: 8px;
@@ -39,7 +39,7 @@
 }
 
 .reports-export-button:hover {
-    background: #4338ca;
+    background: #159653;
     transform: translateY(-1px);
 }
 
@@ -102,6 +102,7 @@
 
 .reports-summary-card {
     padding: 20px;
+    min-width: 0;
 }
 
 .reports-summary-icon {
@@ -150,6 +151,7 @@
     grid-template-columns: 1.4fr 1fr;
     gap: 20px;
     margin-bottom: 22px;
+    align-items: stretch;
 }
 
 .reports-panel {
@@ -180,11 +182,42 @@
 .reports-chart {
     height: 300px;
     width: 100%;
+    min-width: 0;
 }
 
 .reports-pie-chart {
-    height: 190px;
+    height: 230px;
     width: 100%;
+    min-width: 0;
+}
+
+/* Investment allocation layout */
+
+.reports-allocation-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.reports-allocation-content {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(160px, 1fr);
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    min-width: 0;
+}
+
+.reports-allocation-content .reports-pie-chart {
+    height: 240px;
+    width: 100%;
+}
+
+.reports-allocation-content .reports-category-list {
+    margin-top: 0;
+    padding: 8px 0;
+    gap: 17px;
+    min-width: 0;
 }
 
 .reports-category-list {
@@ -200,6 +233,14 @@
     align-items: center;
     gap: 12px;
     font-size: 12px;
+    min-width: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.reports-category-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .reports-category-row span {
@@ -207,17 +248,89 @@
     align-items: center;
     gap: 9px;
     color: var(--text-secondary);
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .reports-category-row i {
+    display: inline-block;
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .reports-category-row strong {
     font-size: 12px;
+    white-space: nowrap;
 }
+
+/* Investment portfolio */
+
+.reports-section-title {
+    margin: 28px 0 16px;
+}
+
+.reports-section-title h2 {
+    margin: 0 0 5px;
+    font-size: 20px;
+}
+
+.reports-section-title p {
+    margin: 0;
+    color: var(--text-secondary, #7b8495);
+    font-size: 13px;
+}
+
+.reports-summary-icon.investment {
+    background: rgba(32, 182, 106, 0.12);
+    color: #20b66a;
+}
+
+.reports-type.investment {
+    color: #20b66a;
+    background: rgba(32, 182, 106, 0.12);
+}
+
+.investment-positive {
+    color: #16a34a !important;
+    font-weight: 600;
+}
+
+.investment-negative {
+    color: #e65d6b !important;
+    font-weight: 600;
+}
+
+.reports-investment-activity {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.reports-investment-activity > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.reports-investment-activity > div:last-child {
+    border-bottom: none;
+}
+
+.reports-investment-activity span {
+    color: var(--text-secondary, #7b8495);
+    font-size: 13px;
+}
+
+.reports-investment-activity strong {
+    font-size: 14px;
+}
+
+/* Budget performance */
 
 .reports-budget-list {
     display: flex;
@@ -267,6 +380,8 @@
     font-size: 12px;
 }
 
+/* Savings goals */
+
 .reports-goals-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -305,6 +420,8 @@
     color: var(--text-secondary);
     font-size: 11px;
 }
+
+/* Tables */
 
 .reports-table-wrapper {
     width: 100%;
@@ -368,15 +485,23 @@
     font-size: 13px;
 }
 
+/* Dark theme */
+
 [data-theme="dark"] .reports-chart .recharts-cartesian-axis-tick-value,
 [data-theme="dark"] .reports-chart .recharts-legend-item-text {
     fill: var(--text-secondary);
     color: var(--text-secondary) !important;
 }
 
+[data-theme="dark"] .reports-category-row {
+    border-color: var(--border-color);
+}
+
+/* Tablet */
+
 @media (max-width: 1100px) {
     .reports-summary-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .reports-charts-grid {
@@ -384,9 +509,11 @@
     }
 
     .reports-goals-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+/* Mobile */
 
 @media (max-width: 650px) {
     .reports-page {
@@ -438,64 +565,27 @@
     .reports-chart {
         height: 260px;
     }
-}
 
-/* Investment reports */
+    .reports-pie-chart {
+        height: 210px;
+    }
 
-.reports-section-title {
-    margin: 28px 0 16px;
-}
+    .reports-allocation-content {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
 
-.reports-section-title h2 {
-    margin: 0 0 5px;
-    font-size: 20px;
-}
+    .reports-allocation-content .reports-pie-chart {
+        height: 220px;
+        max-width: 320px;
+        margin: 0 auto;
+    }
 
-.reports-section-title p {
-    margin: 0;
-    color: var(--text-secondary, #7b8495);
-    font-size: 13px;
-}
+    .reports-allocation-content .reports-category-list {
+        padding: 0;
+        gap: 13px;
+    }
 
-.reports-summary-icon.investment {
-    background: rgba(99, 102, 241, 0.12);
-    color: #6366f1;
-}
-
-.reports-type.investment {
-    color: #6366f1;
-    background: rgba(99, 102, 241, 0.12);
-}
-
-.reports-investment-activity {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.reports-investment-activity > div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 17px 0;
-    border-bottom: 1px solid var(--border-color, #e5e7eb);
-}
-
-.reports-investment-activity > div:last-child {
-    border-bottom: none;
-}
-
-.reports-investment-activity span {
-    color: var(--text-secondary, #7b8495);
-    font-size: 13px;
-}
-
-.reports-investment-activity strong {
-    font-size: 14px;
-}
-
-@media (max-width: 650px) {
     .reports-investment-activity > div {
         align-items: flex-start;
         flex-direction: column;
