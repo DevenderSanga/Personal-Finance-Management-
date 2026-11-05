@@ -403,7 +403,7 @@ html[dir="rtl"] .notification-footer {
         gap: 8px;
     }
 
-    .header-left > div {
+    .header-left>div {
         min-width: 0;
     }
 
@@ -488,7 +488,8 @@ html[dir="rtl"] .notification-footer {
     }
 
     .direction-label {
-        display: none;
+        display: inline-block !important;
+        font-size: 9px !important;
     }
 
     .direction-action {

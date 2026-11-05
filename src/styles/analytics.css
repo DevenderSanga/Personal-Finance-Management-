@@ -432,3 +432,225 @@
         align-items: flex-start;
     }
 }
+
+
+/* =========================================
+   FINORA INVESTMENT ALLOCATION REDESIGN
+========================================= */
+
+.analytics-investment-grid {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: stretch;
+}
+
+.analytics-allocation-panel {
+    min-width: 0;
+    overflow: hidden;
+}
+
+.analytics-allocation-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: 22px;
+    min-width: 0;
+}
+
+.analytics-donut-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 290px;
+    margin: 0 auto;
+}
+
+.analytics-allocation-chart {
+    width: 100%;
+    height: 270px;
+}
+
+.analytics-donut-center {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+    text-align: center;
+    padding: 10px;
+}
+
+.analytics-donut-center span {
+    color: var(--text-secondary, #7b8495);
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.analytics-donut-center strong {
+    color: var(--text-primary, #20243a);
+    font-size: 19px;
+    font-weight: 800;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.analytics-donut-center small {
+    margin-top: 6px;
+    color: var(--text-secondary, #7b8495);
+    font-size: 10px;
+}
+
+/* Allocation category details */
+
+.analytics-allocation-details {
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    min-width: 0;
+}
+
+.analytics-allocation-item {
+    min-width: 0;
+}
+
+.analytics-allocation-item-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 9px;
+}
+
+.analytics-allocation-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.analytics-allocation-label strong {
+    color: var(--text-primary, #20243a);
+    font-size: 12px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.analytics-allocation-dot {
+    width: 10px;
+    height: 10px;
+    min-width: 10px;
+    border-radius: 50%;
+}
+
+.analytics-allocation-amount {
+    color: var(--text-primary, #20243a);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.analytics-allocation-progress {
+    width: 100%;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: var(--page-bg, #f1f3f7);
+}
+
+.analytics-allocation-progress-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+.analytics-allocation-percentage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.analytics-allocation-percentage span {
+    color: var(--text-secondary, #7b8495);
+    font-size: 10px;
+}
+
+.analytics-allocation-percentage strong {
+    color: var(--text-primary, #20243a);
+    font-size: 11px;
+    font-weight: 750;
+}
+
+/* Dark theme */
+
+[data-theme="dark"] .analytics-donut-center strong,
+[data-theme="dark"] .analytics-allocation-label strong,
+[data-theme="dark"] .analytics-allocation-amount,
+[data-theme="dark"] .analytics-allocation-percentage strong {
+    color: var(--text);
+}
+
+/* Tablet */
+
+@media (max-width: 1050px) {
+    .analytics-investment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-allocation-layout {
+        grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    .analytics-allocation-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .analytics-donut-wrapper {
+        max-width: 280px;
+    }
+
+    .analytics-allocation-chart {
+        height: 250px;
+    }
+
+    .analytics-donut-center strong {
+        font-size: 18px;
+    }
+
+    .analytics-allocation-details {
+        gap: 17px;
+    }
+
+    .analytics-allocation-item-top {
+        flex-wrap: wrap;
+    }
+}
+
+/* Very small mobile */
+
+@media (max-width: 360px) {
+    .analytics-donut-wrapper {
+        max-width: 240px;
+    }
+
+    .analytics-allocation-chart {
+        height: 225px;
+    }
+
+    .analytics-donut-center strong {
+        font-size: 16px;
+    }
+
+    .analytics-allocation-amount {
+        font-size: 11px;
+    }
+}

@@ -341,11 +341,10 @@ function Analytics() {
                 <div className="analytics-stat-card">
                     <div className="analytics-stat-top">
                         <span>Profit / Loss</span>
-                        <div className={`analytics-icon ${
-                            investmentPortfolio.profitLoss >= 0
+                        <div className={`analytics-icon ${investmentPortfolio.profitLoss >= 0
                                 ? "income-icon"
                                 : "expense-icon"
-                        }`}>
+                            }`}>
                             {investmentPortfolio.profitLoss >= 0
                                 ? <FiTrendingUp />
                                 : <FiTrendingDown />}
@@ -433,69 +432,117 @@ function Analytics() {
                 </div>
             </div>
 
-            {/* Investment allocation and holdings */}
-            <div className="analytics-bottom-grid">
 
-                <div className="analytics-panel">
+            {/* Investment allocation and holdings */}
+            <div className="analytics-bottom-grid analytics-investment-grid">
+
+                {/* Investment Allocation */}
+                <div className="analytics-panel analytics-allocation-panel">
+
                     <div className="analytics-panel-heading">
                         <div>
                             <h3>Investment Allocation</h3>
-                            <p>Portfolio value by investment type</p>
+                            <p>How your portfolio is distributed</p>
                         </div>
                     </div>
 
                     {investmentAllocation.length > 0 ? (
-                        <>
-                            <div className="analytics-pie-chart">
-                                <ResponsiveContainer width="100%" height="100%">
-                                    <PieChart>
-                                        <Pie
-                                            data={investmentAllocation}
-                                            dataKey="value"
-                                            nameKey="name"
-                                            cx="50%"
-                                            cy="50%"
-                                            innerRadius={65}
-                                            outerRadius={100}
-                                            paddingAngle={3}
-                                        >
-                                            {investmentAllocation.map((item, index) => (
-                                                <Cell
-                                                    key={item.name}
-                                                    fill={COLORS[index % COLORS.length]}
-                                                />
-                                            ))}
-                                        </Pie>
-                                        <Tooltip
-                                            formatter={(value) => currency(value)}
-                                        />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                            </div>
+                        <div className="analytics-allocation-layout">
 
-                            <div className="analytics-category-list">
-                                {investmentAllocation.map((item, index) => (
-                                    <div
-                                        className="analytics-category-item"
-                                        key={item.name}
-                                    >
-                                        <div className="analytics-category-name">
-                                            <span
-                                                className="analytics-color-dot"
-                                                style={{
-                                                    backgroundColor:
-                                                        COLORS[index % COLORS.length],
-                                                }}
+                            <div className="analytics-donut-wrapper">
+                                <div className="analytics-allocation-chart">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <PieChart>
+                                            <Pie
+                                                data={investmentAllocation}
+                                                dataKey="value"
+                                                nameKey="name"
+                                                cx="50%"
+                                                cy="50%"
+                                                innerRadius={72}
+                                                outerRadius={105}
+                                                paddingAngle={4}
+                                                stroke="none"
+                                            >
+                                                {investmentAllocation.map((item, index) => (
+                                                    <Cell
+                                                        key={item.name}
+                                                        fill={COLORS[index % COLORS.length]}
+                                                    />
+                                                ))}
+                                            </Pie>
+
+                                            <Tooltip
+                                                formatter={(value) => currency(value)}
                                             />
-                                            <span>{item.name}</span>
-                                        </div>
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                </div>
 
-                                        <strong>{currency(item.value)}</strong>
-                                    </div>
-                                ))}
+                                <div className="analytics-donut-center">
+                                    <span>Portfolio Value</span>
+                                    <strong>
+                                        {currency(investmentPortfolio.currentValue)}
+                                    </strong>
+                                    <small>{investmentAllocation.length} Categories</small>
+                                </div>
                             </div>
-                        </>
+
+                            <div className="analytics-allocation-details">
+
+                                {investmentAllocation.map((item, index) => {
+                                    const percentage =
+                                        investmentPortfolio.currentValue > 0
+                                            ? (item.value /
+                                                investmentPortfolio.currentValue) * 100
+                                            : 0;
+
+                                    return (
+                                        <div
+                                            className="analytics-allocation-item"
+                                            key={item.name}
+                                        >
+                                            <div className="analytics-allocation-item-top">
+
+                                                <div className="analytics-allocation-label">
+                                                    <span
+                                                        className="analytics-allocation-dot"
+                                                        style={{
+                                                            backgroundColor:
+                                                                COLORS[index % COLORS.length],
+                                                        }}
+                                                    />
+
+                                                    <strong>{item.name}</strong>
+                                                </div>
+
+                                                <strong className="analytics-allocation-amount">
+                                                    {currency(item.value)}
+                                                </strong>
+
+                                            </div>
+
+                                            <div className="analytics-allocation-progress">
+                                                <div
+                                                    className="analytics-allocation-progress-fill"
+                                                    style={{
+                                                        width: `${percentage}%`,
+                                                        backgroundColor:
+                                                            COLORS[index % COLORS.length],
+                                                    }}
+                                                />
+                                            </div>
+
+                                            <div className="analytics-allocation-percentage">
+                                                <span>Portfolio share</span>
+                                                <strong>{percentage.toFixed(1)}%</strong>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+
+                            </div>
+                        </div>
                     ) : (
                         <div className="analytics-empty">
                             No investment records available yet.
@@ -503,6 +550,7 @@ function Analytics() {
                     )}
                 </div>
 
+                {/* Investment Holdings */}
                 <div className="analytics-panel">
                     <div className="analytics-panel-heading">
                         <div>
@@ -522,8 +570,7 @@ function Analytics() {
                                     Number(item.units || 0) *
                                     Number(item.currentPrice || 0);
 
-                                const profitLoss =
-                                    currentValue - invested;
+                                const profitLoss = currentValue - invested;
 
                                 return (
                                     <div
@@ -539,6 +586,7 @@ function Analytics() {
 
                                         <div className="analytics-investment-values">
                                             <strong>{currency(currentValue)}</strong>
+
                                             <span className={
                                                 profitLoss >= 0
                                                     ? "investment-positive"
@@ -560,6 +608,7 @@ function Analytics() {
                 </div>
 
             </div>
+
 
             {/* Expense category and budget */}
             <div className="analytics-bottom-grid">
@@ -654,9 +703,8 @@ function Analytics() {
                             <>
                                 <div className="analytics-budget-track">
                                     <div
-                                        className={`analytics-budget-fill ${
-                                            budgetUsage > 100 ? "over-budget" : ""
-                                        }`}
+                                        className={`analytics-budget-fill ${budgetUsage > 100 ? "over-budget" : ""
+                                            }`}
                                         style={{
                                             width: `${Math.min(budgetUsage, 100)}%`,
                                         }}
